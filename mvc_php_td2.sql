@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : sam. 12 sep. 2026 à 18:16
+-- Généré le : jeu. 17 sep. 2026 à 21:25
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -20,6 +20,17 @@ SET time_zone = "+00:00";
 --
 -- Base de données : `mvc_php_td2`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `passager`
+--
+
+CREATE TABLE `passager` (
+  `trajet_id` int(11) NOT NULL,
+  `utilisateur_login` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -43,7 +54,6 @@ CREATE TABLE `trajet` (
 
 INSERT INTO `trajet` (`id`, `depart`, `arrivee`, `date`, `nbplaces`, `prix`, `conducteur_login`) VALUES
 (1, 'Gap', 'Marseille', '2026-09-15', 3, 20, 'jdupont'),
-(2, 'Gap', 'Aix-en-Provence', '2026-09-16', 2, 15, 'elevex'),
 (3, 'Briançon', 'Gap', '2026-09-18', 4, 10, 'mbardet');
 
 -- --------------------------------------------------------
@@ -63,7 +73,6 @@ CREATE TABLE `utilisateur` (
 --
 
 INSERT INTO `utilisateur` (`login`, `nom`, `prenom`) VALUES
-('elevex', 'Martin', 'Lucas'),
 ('jdupont', 'Dupont', 'Jean'),
 ('mbardet', 'Bardet', 'Marie');
 
@@ -84,17 +93,39 @@ CREATE TABLE `voiture` (
 --
 
 INSERT INTO `voiture` (`immatriculation`, `marque`, `couleur`) VALUES
-('AA-000-AA', 'Peugeot', 'Rouge');
+('00-OOO-00', 'Mickey', 'Turcoise'),
+('AA-000-AA', 'Peugeot', 'Rouge'),
+('XX-999-YY', 'Peugeot', 'Rouge');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `voiture2`
+--
+
+CREATE TABLE `voiture2` (
+  `immatriculation` varchar(8) NOT NULL,
+  `marque` varchar(25) NOT NULL,
+  `couleur` varchar(12) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Index pour les tables déchargées
 --
 
 --
+-- Index pour la table `passager`
+--
+ALTER TABLE `passager`
+  ADD PRIMARY KEY (`trajet_id`,`utilisateur_login`),
+  ADD KEY `utilisateur_login` (`utilisateur_login`);
+
+--
 -- Index pour la table `trajet`
 --
 ALTER TABLE `trajet`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `conducteur_login` (`conducteur_login`);
 
 --
 -- Index pour la table `utilisateur`
@@ -109,6 +140,12 @@ ALTER TABLE `voiture`
   ADD PRIMARY KEY (`immatriculation`);
 
 --
+-- Index pour la table `voiture2`
+--
+ALTER TABLE `voiture2`
+  ADD PRIMARY KEY (`immatriculation`);
+
+--
 -- AUTO_INCREMENT pour les tables déchargées
 --
 
@@ -116,7 +153,24 @@ ALTER TABLE `voiture`
 -- AUTO_INCREMENT pour la table `trajet`
 --
 ALTER TABLE `trajet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- Contraintes pour les tables déchargées
+--
+
+--
+-- Contraintes pour la table `passager`
+--
+ALTER TABLE `passager`
+  ADD CONSTRAINT `passager_ibfk_1` FOREIGN KEY (`trajet_id`) REFERENCES `trajet` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `passager_ibfk_2` FOREIGN KEY (`utilisateur_login`) REFERENCES `utilisateur` (`login`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Contraintes pour la table `trajet`
+--
+ALTER TABLE `trajet`
+  ADD CONSTRAINT `trajet_ibfk_1` FOREIGN KEY (`conducteur_login`) REFERENCES `utilisateur` (`login`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
