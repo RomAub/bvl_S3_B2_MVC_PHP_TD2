@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Préférences</title>
+    </head>
+    <body>
+        <form method="get" action="personalisation.php">
+          <fieldset>
+            <legend>Choisissez votre page d'accueil :</legend>
+            <p>
+              <input type="radio" name="preference" id="pref_voiture" value="voiture" checked/>
+              <label for="pref_voiture">Voitures</label>
+            </p>
+            <p>
+              <input type="radio" name="preference" id="pref_trajet" value="trajet"/>
+              <label for="pref_trajet">Trajets</label>
+            </p>
+            <p>
+              <input type="radio" name="preference" id="pref_utilisateur" value="utilisateur"/>
+              <label for="pref_utilisateur">Utilisateurs</label>
+            </p>
+            <p>
+              <input type="submit" value="Enregistrer" />
+            </p>
+          </fieldset>
+        </form>
+    </body>
+</html>
